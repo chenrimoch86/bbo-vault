@@ -1,0 +1,214 @@
+# resources.toml - catalogue of papers and pages to download.
+#
+# This is the default resource list (black-box optimization & LLM tuning).
+# Replace it for any other topic — the schema is dead simple:
+#
+#   [[resource]]
+#   tier     = 1                # 1 = must-have, 2 = nice-to-have, 3 = reference
+#   kind     = "pdf"            # "pdf" or "html"
+#   filename = "Author-Year-Title.pdf"
+#   url      = "https://..."
+#   note     = "One-line description"
+#
+# Use any tier numbers you want — they're just filters. Convention:
+#   1 = essential        (download_raw.py --tier 1 fetches only these)
+#   2 = recommended
+#   3 = nice-to-have / reference
+#
+# Run `download_raw.py --init my-topic.toml` to generate a starter template.
+
+# =========================================================================
+# Tier 1 — Must-have papers
+# =========================================================================
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Eriksson-2019-TuRBO.pdf"
+url      = "https://arxiv.org/pdf/1910.01739"
+note     = "Trust Region Bayesian Optimization (high-dim BO workhorse)"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Liu-2024-LLAMBO.pdf"
+url      = "https://arxiv.org/pdf/2402.03921"
+note     = "LLMs to Enhance Bayesian Optimization"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "BORA-2025.pdf"
+url      = "https://arxiv.org/pdf/2501.16224"
+note     = "Language-Based BO Research Assistant"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Yang-2023-OPRO.pdf"
+url      = "https://arxiv.org/pdf/2309.03409"
+note     = "Large Language Models as Optimizers"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Trofin-2021-MLGO.pdf"
+url      = "https://arxiv.org/pdf/2101.04808"
+note     = "ML Guided Compiler Optimizations Framework"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Gonzalez-2024-HDBO-Survey.pdf"
+url      = "https://arxiv.org/pdf/2406.04739"
+note     = "Survey & Benchmark of High-Dim BO of Discrete Sequences"
+
+# =========================================================================
+# Tier 2 — Nice-to-have
+# =========================================================================
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Chang-2025-LLINBO.pdf"
+url      = "https://arxiv.org/pdf/2505.14756"
+note     = "Trustworthy LLM-in-the-Loop BO"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "VeriLocc-2025.pdf"
+url      = "https://arxiv.org/pdf/2506.17506"
+note     = "End-to-End Cross-Architecture Register Allocation via LLM"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Ashouri-2018-Compiler-Autotuning-Survey.pdf"
+url      = "https://arxiv.org/pdf/1801.04405"
+note     = "A Survey on Compiler Autotuning Using ML"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Nomura-2024-CMA-ES-Learning-Rate.pdf"
+url      = "https://arxiv.org/pdf/2401.15876"
+note     = "CMA-ES with Learning Rate Adaptation"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Bartz-Beielstein-Surrogate-BBO.pdf"
+url      = "https://www.lix.polytechnique.fr/~liberti/itor16.pdf"
+note     = "Surrogate-based methods for black-box optimization"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Meindl-2025-GPTOpt.pdf"
+url      = "https://arxiv.org/pdf/2510.25404"
+note     = "Teaching LLMs to do Interpretable Black-Box Optimization"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Li-2025-LLaMEA-BO.pdf"
+url      = "https://arxiv.org/pdf/2505.21034"
+note     = "LLM Evolutionary Algorithm for BO Algorithms"
+
+# =========================================================================
+# Tier 3 — Reference / supporting
+# =========================================================================
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "Wang-2018-EBO.pdf"
+url      = "https://arxiv.org/pdf/1706.01445"
+note     = "Batched Large-scale BO in High-dim Spaces (EBO)"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "Anahideh-2019-HDBBO-Uncertainty.pdf"
+url      = "https://arxiv.org/pdf/1911.02457"
+note     = "High-Dimensional BBO Under Uncertainty"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "Wang-2025-LLM-Agent-HPO.pdf"
+url      = "https://arxiv.org/pdf/2506.15167"
+note     = "LLM Agent for Hyper-Parameter Optimization"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "TCS-2025-Small-LLMs-HPT.pdf"
+url      = "https://arxiv.org/pdf/2509.15561"
+note     = "Small LLMs with Expert Blocks for HPT (TCS)"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "VenkatRamanan-LM-MA-ES.pdf"
+url      = "https://arxiv.org/pdf/1705.06693"
+note     = "Limited-Memory Matrix Adaptation Evolution Strategy"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "AdaScale-TuRBO-2026.pdf"
+url      = "https://arxiv.org/pdf/2604.22967"
+note     = "Rethinking TuRBO in High Dimensions (AdaScale-TuRBO)"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "MG-TuRBO-2026.pdf"
+url      = "https://arxiv.org/pdf/2604.08569"
+note     = "Memory-Guided Trust-Region BO"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "Namura-2024-REI.pdf"
+url      = "https://arxiv.org/pdf/2412.11456"
+note     = "Regional Expected Improvement for High-Dim BO"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "RL4ReAl-2022.pdf"
+url      = "https://arxiv.org/pdf/2204.02013"
+note     = "Reinforcement Learning for Register Allocation"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "GRACE-2025.pdf"
+url      = "https://arxiv.org/pdf/2510.13176"
+note     = "Globally-Seeded Compiler Auto-Tuning"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "Scalable-NN-BBO-2025.pdf"
+url      = "https://arxiv.org/pdf/2508.03827"
+note     = "Scalable Neural Network-Based BBO"
+
+# Web pages (saved as HTML, converted to .md by convert_to_md.py)
+
+[[resource]]
+tier     = 3
+kind     = "html"
+filename = "CMA-ES-homepage.html"
+url      = "https://cma-es.github.io/"
+note     = "Hansen's CMA-ES reference homepage"
+
+[[resource]]
+tier     = 3
+kind     = "html"
+filename = "MLGO-Google-Blog.html"
+url      = "https://research.google/blog/mlgo-a-machine-learning-framework-for-compiler-optimization/"
+note     = "Google Research blog post on MLGO"
