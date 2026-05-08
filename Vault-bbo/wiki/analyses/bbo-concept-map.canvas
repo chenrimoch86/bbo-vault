@@ -1,0 +1,27 @@
+{
+	"nodes":[
+		{"id":"bo","type":"text","text":"[[bayesian-optimization]]\nBayesian Optimization","x":0,"y":0,"width":220,"height":70,"color":"4"},
+		{"id":"gp","type":"text","text":"[[gaussian-process]]\nGaussian Process","x":-450,"y":-160,"width":200,"height":70,"color":"5"},
+		{"id":"af","type":"text","text":"[[acquisition-function]]\nAcquisition Function\nEI / UCB / PI","x":280,"y":-160,"width":210,"height":80,"color":"5"},
+		{"id":"sm","type":"text","text":"[[surrogate-model]]\nSurrogate Model\nGP · NN · MARS · RBF","x":-450,"y":130,"width":210,"height":80,"color":"5"},
+		{"id":"tr","type":"text","text":"[[trust-region-bo]]\nTrust-Region BO\nTuRBO · AdaScale · MG-TuRBO","x":280,"y":130,"width":230,"height":80,"color":"5"},
+		{"id":"llm","type":"text","text":"[[llm-bo-hybrid]]\nLLM–BO Hybrids\nOPRO · LLAMBO · BORA","x":0,"y":-320,"width":220,"height":80,"color":"6"},
+		{"id":"cma","type":"text","text":"[[cma-es]]\nCMA-ES\nEvolution Strategy","x":560,"y":0,"width":190,"height":70,"color":"1"},
+		{"id":"compiler","type":"text","text":"[[compiler-autotuning]]\nCompiler Autotuning\nMLGO · GRACE · RL4ReAl","x":340,"y":450,"width":220,"height":80,"color":"2"},
+		{"id":"hd","type":"text","text":"[[high-dimensional-bo]]\nHigh-Dimensional BO\nD > 20","x":60,"y":450,"width":220,"height":70,"color":"3"},
+		{"id":"hpo","type":"text","text":"[[hyperparameter-optimization]]\nHyperparameter\nOptimization","x":-280,"y":450,"width":210,"height":80,"color":"2"}
+	],
+	"edges":[
+		{"id":"bo-gp","fromNode":"bo","fromSide":"left","toNode":"gp","toSide":"right","label":"uses"},
+		{"id":"bo-af","fromNode":"bo","fromSide":"right","toNode":"af","toSide":"left","label":"guided by"},
+		{"id":"gp-sm","fromNode":"gp","fromSide":"bottom","toNode":"sm","toSide":"top","label":"is a type of"},
+		{"id":"bo-tr","fromNode":"bo","fromSide":"right","toNode":"tr","toSide":"left","label":"scales via"},
+		{"id":"tr-hd","fromNode":"tr","fromSide":"bottom","toNode":"hd","toSide":"right","label":"solves"},
+		{"id":"bo-hd","fromNode":"bo","fromSide":"bottom","toNode":"hd","toSide":"top","label":"addresses"},
+		{"id":"llm-bo","fromNode":"llm","fromSide":"bottom","toNode":"bo","toSide":"top","label":"augments"},
+		{"id":"cma-bo","fromNode":"cma","fromSide":"left","toNode":"bo","toSide":"right","label":"alternative to"},
+		{"id":"bo-hpo","fromNode":"bo","fromSide":"bottom","toNode":"hpo","toSide":"top","label":"applied to"},
+		{"id":"llm-hpo","fromNode":"llm","fromSide":"left","toNode":"hpo","toSide":"top","label":"applied to"},
+		{"id":"bo-compiler","fromNode":"bo","fromSide":"bottom","toNode":"compiler","toSide":"top","label":"applied to"}
+	]
+}
