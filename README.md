@@ -270,6 +270,47 @@ uv remove somepackage        # remove
 uv tree                      # see the full dep tree
 ```
 
+## Second Brain Setup (LLM Wiki workflow)
+
+This repo ships with two Claude Code prompts that turn the vault into a
+living second brain, following Karpathy's [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) spec.
+
+### Stages
+
+**1. Initialization** — scaffold the vault (CLAUDE.md schema, index, log, folder conventions)  
+**2. Ingestion** — run the pipeline, then let Claude process and link the notes  
+**3. Querying** — ask questions in plain language inside the vault folder
+
+### 1. Initialization
+
+Create (or open) your knowledge base folder, then open Claude Code in it and
+paste the prompts from [`prompts/01-init.md`](prompts/01-init.md) **in order**:
+
+1. Paste the Karpathy LLM Wiki URL (Claude fetches and internalises the spec).
+2. Paste the specific agent prompt — Claude creates `CLAUDE.md`, `index.md`,
+   `log.md`, and walks you through the first ingest example.
+
+### 2. Ingestion
+
+```bash
+# Fetch papers + convert to markdown
+make all
+
+# Then, inside Claude Code, paste:
+# prompts/02-ingest.md
+```
+
+Claude will process the files in `raw-md/`, write distilled notes into the
+vault, and update `index.md` and `log.md` automatically.
+
+### 3. Querying
+
+Open Claude Code inside your knowledge-base folder and ask questions in plain
+language. The CLAUDE.md schema created in step 1 keeps every answer grounded
+in your vault's own notes.
+
+---
+
 ## License
 
 Code: MIT. Notes: CC-BY-4.0.
