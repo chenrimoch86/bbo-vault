@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "92a54153d72545af",
+        "id": "1e05f610c51a66e7",
         "type": "tabs",
         "children": [
           {
-            "id": "282c7517d69826b7",
+            "id": "1b72cbc58452e17b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "wiki/analyses/isp-register-optimization.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "isp-register-optimization"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -94,7 +90,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "wiki/analyses/isp-register-optimization.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +99,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for isp-register-optimization"
+              "title": "Backlinks"
             }
           },
           {
@@ -113,12 +108,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "wiki/analyses/isp-register-optimization.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from isp-register-optimization"
+              "title": "Outgoing links"
             }
           },
           {
@@ -156,13 +150,12 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "wiki/analyses/isp-register-optimization.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of isp-register-optimization"
+              "title": "Outline"
             }
           }
         ]
@@ -184,25 +177,38 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "282c7517d69826b7",
+  "active": "1b72cbc58452e17b",
   "lastOpenFiles": [
-    "wiki/analyses/llm-bo-integration-patterns.md",
-    "wiki/analyses/mermaid-diagram-demo.md",
-    "wiki/analyses/Problem_Definition.md",
-    "wiki/analyses/cpp-register-profiling-workflow.md",
+    "wiki/concepts/metamodel-validation.md",
+    "wiki/concepts/active-learning.md",
+    "wiki/concepts/latin-hypercube-sampling.md",
+    "wiki/concepts/multi-objective-optimization.md",
+    "wiki/concepts/sensitivity-analysis.md",
+    "wiki/concepts/image-quality-metrics.md",
+    "wiki/sources/hou-2023-llms-for-se.md",
+    "wiki/sources/roziere-2023-code-llama.md",
+    "wiki/sources/wei-2022-chain-of-thought.md",
+    "wiki/sources/settles-2009-active-learning.md",
+    "wiki/sources/constantine-2014-active-subspaces.md",
     "wiki/analyses/isp-register-optimization.md",
-    "raw/papers/MG-TuRBO-2026.md",
+    "wiki/sources/daulton-2020-qehvi.md",
+    "wiki/sources/deb-2002-nsga-ii.md",
+    "wiki/sources/iooss-2010-q2-metamodel-validation.md",
+    "wiki/sources/herman-2017-salib.md",
+    "wiki/sources/lundberg-2018-treeshap.md",
+    "wiki/sources/lundberg-2017-shap.md",
+    "wiki/sources/mckay-1979-lhs.md",
+    "wiki/sources/sacks-1989-dace.md",
+    "wiki/sources/chen-2016-xgboost.md",
+    "wiki/sources/burns-2000-slanted-edge-mtf.md",
+    "raw/papers/Wei-2022-Chain-of-Thought.md",
+    "raw/papers/Settles-2009-Active-Learning-Survey.md",
+    "raw/papers/Sacks-1989-DACE.md",
+    "raw/papers/Roziere-2023-CodeLlama.md",
     "wiki/analyses/bbo-concept-map.canvas",
-    "wiki/concepts/surrogate-model.md",
-    "wiki/concepts/cma-es.md",
-    "wiki/concepts/bayesian-optimization.md",
-    "wiki/concepts/gaussian-process.md",
-    "𝑡.md",
     "Untitled.base",
     "Untitled.canvas",
     "Untitled 2.canvas",
-    "Untitled 1.canvas",
-    "wiki/concepts/llm-bo-hybrid.md",
-    "raw/example-llm-wiki-idea.md"
+    "Untitled 1.canvas"
   ]
 }

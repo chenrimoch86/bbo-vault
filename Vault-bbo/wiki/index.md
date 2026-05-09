@@ -33,6 +33,21 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[venkatakeerthy-2022-rl4real]] — RL4ReAl: multi-agent RL for LLVM register allocation; CC 2023 (2026-05-08)
 - [[grace-2025]] — GRACE: pass synergy + contrastive learning + GA; 10% over -Oz (2026-05-08)
 - [[jin-2025-verilocc]] — VeriLocc: LLM + Z3 SMT for GPU regalloc; beats rocBLAS 11.6% (2026-05-08)
+- [[burns-2000-slanted-edge-mtf]] — Slanted-edge MTF: ISO 12233 SFR algorithm, bias sources, what the MTF score measures (2026-05-10)
+- [[chen-2016-xgboost]] — XGBoost: gradient boosted trees, three importance types (gain/cover/freq), sparsity-aware (2026-05-10)
+- [[sacks-1989-dace]] — DACE: foundational GP surrogate + space-filling design for expensive computer experiments (2026-05-10)
+- [[mckay-1979-lhs]] — LHS: space-filling sampling; lower variance than random for 200D register space (2026-05-10)
+- [[lundberg-2017-shap]] — SHAP: game-theoretic feature importance; consistent, handles correlated registers (2026-05-10)
+- [[lundberg-2018-treeshap]] — TreeSHAP: exact O(TLD²) SHAP for XGBoost/LightGBM; practical register importance tool (2026-05-10)
+- [[herman-2017-salib]] — SALib: Morris screening + Sobol indices in Python; dead-register identification (2026-05-10)
+- [[iooss-2010-q2-metamodel-validation]] — Q2 coefficient: LOO cross-validation metric for surrogate quality; threshold Q2>0.95 for optimization (2026-05-10)
+- [[deb-2002-nsga-ii]] — NSGA-II: fast elitist multi-objective GA; returns full MTF/false-color/desaturation Pareto front (2026-05-10)
+- [[daulton-2020-qehvi]] — qEHVI: differentiable expected hypervolume improvement for parallel multi-objective BO (2026-05-10)
+- [[constantine-2014-active-subspaces]] — Active subspaces: gradient-based dimension reduction; 200D → low-D via rotated coordinates (2026-05-10)
+- [[settles-2009-active-learning]] — Active learning survey: QBC framework; theoretical backing for ISP targeted resampling loop (2026-05-10)
+- [[wei-2022-chain-of-thought]] — Chain-of-Thought: few-shot prompting with reasoning steps; foundational for ISP C++ extraction (2026-05-10)
+- [[roziere-2023-code-llama]] — Code Llama: Meta's code-specialized LLM; 34B Instruct recommended for ISP block analysis (2026-05-10)
+- [[hou-2023-llms-for-se]] — LLMs for SE survey: 395 papers; maps reliable vs. unreliable LLM code tasks (2026-05-10)
 
 ---
 
@@ -62,6 +77,12 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[llm-bo-hybrid]] — LLMs as optimizers, surrogates, or adaptive BO components (2026-05-08)
 - [[compiler-autotuning]] — ML/RL for pass selection and phase ordering in LLVM/GCC (2026-05-08)
 - [[hyperparameter-optimization]] — HPO as BBO; BO, LLM, and hybrid approaches (2026-05-08)
+- [[image-quality-metrics]] — MTF, false color, desaturation: what each measures and which ISP registers drive it (2026-05-10)
+- [[sensitivity-analysis]] — Morris/Sobol/TreeSHAP: ranking which registers matter per IQ metric (2026-05-10)
+- [[multi-objective-optimization]] — Pareto front, NSGA-II, qEHVI: optimizing MTF/false-color/desaturation jointly (2026-05-10)
+- [[latin-hypercube-sampling]] — Space-filling design for 200D; lower variance than random for surrogate fitting (2026-05-10)
+- [[active-learning]] — Query-by-committee adaptive sampling; theoretical backing for ISP targeted retraining loop (2026-05-10)
+- [[metamodel-validation]] — Q2 coefficient, regional validation, acceptance threshold before trusting surrogate (2026-05-10)
 
 ---
 

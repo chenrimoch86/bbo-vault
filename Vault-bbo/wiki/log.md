@@ -5,6 +5,37 @@ Grep pattern for entries: `grep "^## \[" wiki/log.md`
 
 ---
 
+## [2026-05-10] ingest | Batch ingestion of 15 new papers (ISP/IQ, surrogate, sensitivity, multi-objective, sampling, LLM)
+
+- Source pages created (wiki/sources/):
+  - burns-2000-slanted-edge-mtf.md — slanted-edge MTF, ISO 12233 SFR algorithm
+  - chen-2016-xgboost.md — XGBoost: gradient boosting, importance types, surrogate use
+  - sacks-1989-dace.md — DACE: GP surrogate + space-filling design, foundational paper
+  - mckay-1979-lhs.md — Latin Hypercube Sampling, variance reduction proof
+  - lundberg-2017-shap.md — SHAP: unified game-theoretic feature importance
+  - lundberg-2018-treeshap.md — TreeSHAP: exact O(TLD²) SHAP for XGBoost
+  - herman-2017-salib.md — SALib: Morris screening + Sobol indices Python library
+  - iooss-2010-q2-metamodel-validation.md — Q2 coefficient, sequential validation design
+  - deb-2002-nsga-ii.md — NSGA-II: fast elitist multi-objective GA, Pareto front
+  - daulton-2020-qehvi.md — qEHVI: expected hypervolume improvement for multi-objective BO
+  - constantine-2014-active-subspaces.md — active subspace dimension reduction
+  - settles-2009-active-learning.md — active learning survey, QBC framework
+  - wei-2022-chain-of-thought.md — Chain-of-Thought prompting, NeurIPS 2022
+  - roziere-2023-code-llama.md — Code Llama: Meta's code-specialized LLM
+  - hou-2023-llms-for-se.md — LLMs for SE systematic review (395 papers)
+- Source page updated:
+  - loshchilov-2017-lm-ma-es.md — added Loshchilov-2017-LM-MA-ES.md as second source
+- Concept pages created (wiki/concepts/):
+  - image-quality-metrics.md — MTF, false color, desaturation: measurement and ISP relevance
+  - sensitivity-analysis.md — Morris/Sobol/TreeSHAP comparison and recommended workflow
+  - multi-objective-optimization.md — Pareto front, NSGA-II vs. qEHVI vs. weighted sum
+  - latin-hypercube-sampling.md — LHS construction, variance theorem, ISP data collection
+  - active-learning.md — QBC framework, connection to ISP validation loop
+  - metamodel-validation.md — Q2 metric, regional validation, acceptance thresholds
+- index.md updated: +15 sources, +6 concepts
+
+---
+
 ## [2026-05-10] update | Added AGENTS.md for cross-platform LLM access
 
 - Created Vault-bbo/AGENTS.md: universal entry point for non-Claude LLMs (Codex, Copilot CLI, Gemini CLI)

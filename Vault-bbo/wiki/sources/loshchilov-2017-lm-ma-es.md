@@ -4,13 +4,14 @@ type: source
 tags: [cma-es, evolution-strategy, large-scale, limited-memory, black-box-optimization]
 created: 2026-05-08
 updated: 2026-05-08
-sources: [VenkatRamanan-LM-MA-ES.md]
+sources: [VenkatRamanan-LM-MA-ES.md, Loshchilov-2017-LM-MA-ES.md]
 ---
 
 **Authors**: Ilya Loshchilov, Tobias Glasmachers, Hans-Georg Beyer
 **Year**: 2017 (GECCO)
 **Affiliations**: University of Freiburg, Ruhr-Universität Bochum, Vorarlberg University of Applied Sciences
 **URL**: arxiv.org/abs/1705.06693
+**Sources**: VenkatRamanan-LM-MA-ES.md (implementation notes) + Loshchilov-2017-LM-MA-ES.md (original paper)
 
 ## Summary
 

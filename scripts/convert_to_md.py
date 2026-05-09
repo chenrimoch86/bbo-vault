@@ -13,8 +13,8 @@ Converts the PDFs and HTML pages downloaded by download_raw.py into
 clean markdown files suitable for a second brain (Obsidian, Logseq, etc).
 
 Usage:
-    python3 convert_to_md.py                  # convert raw/ -> raw-md/
-    python3 convert_to_md.py --in raw --out raw-md
+    python3 convert_to_md.py                  # convert scripts/raw/ -> Vault-bbo/raw/
+    python3 convert_to_md.py --in raw --out ../Vault-bbo/raw
     python3 convert_to_md.py --force          # re-convert existing files
     python3 convert_to_md.py --dry-run        # show what would happen
 
@@ -34,7 +34,7 @@ Install best-quality dependencies:
 The script works without any external packages too, just lower quality.
 
 Output layout:
-    raw-md/
+    Vault-bbo/raw/
       papers/         one .md per PDF, with YAML frontmatter
       articles/       one .md per HTML page
       _conversion_log.csv
@@ -244,13 +244,18 @@ def _frontmatter(src_file: Path, raw_root: Path,
 # Main
 # -----------------------------------------------------------------------------
 
+_SCRIPT_DIR = Path(__file__).parent
+_DEFAULT_IN  = _SCRIPT_DIR / "raw"
+_DEFAULT_OUT = _SCRIPT_DIR.parent / "Vault-bbo" / "raw"
+
+
 def main() -> int:
     p = argparse.ArgumentParser(
         description="Convert raw PDFs/HTML to second-brain-ready markdown.")
-    p.add_argument("--in", dest="in_dir", type=Path, default=Path("raw"),
-                   help="Input directory (default: ./raw)")
-    p.add_argument("--out", dest="out_dir", type=Path, default=Path("raw-md"),
-                   help="Output directory (default: ./raw-md)")
+    p.add_argument("--in", dest="in_dir", type=Path, default=_DEFAULT_IN,
+                   help=f"Input directory (default: {_DEFAULT_IN})")
+    p.add_argument("--out", dest="out_dir", type=Path, default=_DEFAULT_OUT,
+                   help=f"Output directory (default: {_DEFAULT_OUT})")
     p.add_argument("--force", action="store_true",
                    help="Re-convert even if .md already exists")
     p.add_argument("--dry-run", action="store_true",
