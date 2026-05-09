@@ -5,6 +5,14 @@ Grep pattern for entries: `grep "^## \[" wiki/log.md`
 
 ---
 
+## [2026-05-10] update | Added AGENTS.md for cross-platform LLM access
+
+- Created Vault-bbo/AGENTS.md: universal entry point for non-Claude LLMs (Codex, Copilot CLI, Gemini CLI)
+- Includes: platform routing table, session start protocol, domain context summary, directory layout, page conventions, core operations, log/index formats, rules, file I/O tool mapping, key pages index
+- Includes domain-specific context block so any LLM understands the ISP problem without reading all analyses
+
+---
+
 ## [2026-05-09] update | Expanded GA vs CMA-ES comparison in isp-register-optimization
 
 - Replaced brief table with full mechanistic explanation of why GA fails on continuous landscapes

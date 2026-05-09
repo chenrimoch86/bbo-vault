@@ -1,7 +1,9 @@
 # resources.toml - catalogue of papers and pages to download.
 #
-# This is the default resource list (black-box optimization & LLM tuning).
-# Replace it for any other topic — the schema is dead simple:
+# This is the resource list for the ISP register optimization problem.
+# Focused on: CMA-ES optimizer, XGBoost surrogate, sensitivity analysis, dimension reduction,
+# multi-objective optimization, experimental design, surrogate validation, LLM code analysis,
+# active learning, and ISP image quality metrics.
 #
 #   [[resource]]
 #   tier     = 1                # 1 = must-have, 2 = nice-to-have, 3 = reference
@@ -10,205 +12,272 @@
 #   url      = "https://..."
 #   note     = "One-line description"
 #
-# Use any tier numbers you want — they're just filters. Convention:
+# Tier convention:
 #   1 = essential        (download_raw.py --tier 1 fetches only these)
 #   2 = recommended
-#   3 = nice-to-have / reference
-#
-# Run `download_raw.py --init my-topic.toml` to generate a starter template.
+#   3 = reference / background
 
 # =========================================================================
-# Tier 1 — Must-have papers
+# Tier 1 — CMA-ES: exact algorithm and parameters
 # =========================================================================
 
 [[resource]]
 tier     = 1
 kind     = "pdf"
-filename = "Eriksson-2019-TuRBO.pdf"
-url      = "https://arxiv.org/pdf/1910.01739"
-note     = "Trust Region Bayesian Optimization (high-dim BO workhorse)"
-
-[[resource]]
-tier     = 1
-kind     = "pdf"
-filename = "Liu-2024-LLAMBO.pdf"
-url      = "https://arxiv.org/pdf/2402.03921"
-note     = "LLMs to Enhance Bayesian Optimization"
-
-[[resource]]
-tier     = 1
-kind     = "pdf"
-filename = "BORA-2025.pdf"
-url      = "https://arxiv.org/pdf/2501.16224"
-note     = "Language-Based BO Research Assistant"
-
-[[resource]]
-tier     = 1
-kind     = "pdf"
-filename = "Yang-2023-OPRO.pdf"
-url      = "https://arxiv.org/pdf/2309.03409"
-note     = "Large Language Models as Optimizers"
-
-[[resource]]
-tier     = 1
-kind     = "pdf"
-filename = "Trofin-2021-MLGO.pdf"
-url      = "https://arxiv.org/pdf/2101.04808"
-note     = "ML Guided Compiler Optimizations Framework"
-
-[[resource]]
-tier     = 1
-kind     = "pdf"
-filename = "Gonzalez-2024-HDBO-Survey.pdf"
-url      = "https://arxiv.org/pdf/2406.04739"
-note     = "Survey & Benchmark of High-Dim BO of Discrete Sequences"
+filename = "Hansen-2016-CMA-ES-Tutorial.pdf"
+url      = "https://arxiv.org/pdf/1604.00772"
+note     = "THE CMA-ES implementation reference (Hansen 2016) — exact formulas for λ, μ, learning rates, evolution paths, CSA, termination criteria; read this before implementing"
 
 # =========================================================================
-# Tier 2 — Nice-to-have
+# Tier 1 — Multi-objective optimization (MTF + false color + desaturation)
 # =========================================================================
 
 [[resource]]
-tier     = 2
+tier     = 1
 kind     = "pdf"
-filename = "Chang-2025-LLINBO.pdf"
-url      = "https://arxiv.org/pdf/2505.14756"
-note     = "Trustworthy LLM-in-the-Loop BO"
+filename = "Deb-2002-NSGA-II.pdf"
+url      = "https://sci2s.ugr.es/sites/default/files/files/Teaching/OtherPostGraduateCourses/Metaheuristicas/Deb_NSGAII.pdf"
+note     = "NSGA-II (Deb et al. 2002) — standard Pareto-front multi-objective optimizer; use when you want to see the explicit trade-off between MTF, false color, and desaturation rather than committing to a fixed weighted sum"
 
 [[resource]]
-tier     = 2
+tier     = 1
 kind     = "pdf"
-filename = "VeriLocc-2025.pdf"
-url      = "https://arxiv.org/pdf/2506.17506"
-note     = "End-to-End Cross-Architecture Register Allocation via LLM"
+filename = "Daulton-2020-qEHVI.pdf"
+url      = "https://arxiv.org/pdf/2006.05078"
+note     = "qEHVI: differentiable expected hypervolume improvement for parallel multi-objective BO (NeurIPS 2020) — the state-of-the-art method if you want BO instead of evolutionary search for joint MTF/false-color/desaturation optimization"
+
+# =========================================================================
+# Tier 1 — Experimental design: how to collect the initial 300k runs
+# =========================================================================
 
 [[resource]]
-tier     = 2
+tier     = 1
 kind     = "pdf"
-filename = "Ashouri-2018-Compiler-Autotuning-Survey.pdf"
-url      = "https://arxiv.org/pdf/1801.04405"
-note     = "A Survey on Compiler Autotuning Using ML"
+filename = "McKay-1979-LHS.pdf"
+url      = "https://www.asc.ohio-state.edu/statistics/comp_exp/jour.club/McKayConoverBeckman.pdf"
+note     = "Latin Hypercube Sampling (McKay, Beckman & Conover 1979) — space-filling design for 200D; if your 300k were random uniform, LHS with the same budget gives far better surrogate coverage — foundational for any future data collection rounds"
 
 [[resource]]
-tier     = 2
+tier     = 1
 kind     = "pdf"
-filename = "Nomura-2024-CMA-ES-Learning-Rate.pdf"
-url      = "https://arxiv.org/pdf/2401.15876"
-note     = "CMA-ES with Learning Rate Adaptation"
+filename = "Sacks-1989-DACE.pdf"
+url      = "https://www2.stat.duke.edu/courses/Spring14/sta961.01/ref/SackWelcMitcWynn1989.pdf"
+note     = "DACE: Design and Analysis of Computer Experiments (Sacks et al. 1989) — the foundational paper for surrogate modeling of expensive black-box simulations; explains why space-filling design matters and how GP surrogates are built on it"
+
+# =========================================================================
+# Tier 1 — Surrogate validation: knowing when to trust XGBoost
+# =========================================================================
 
 [[resource]]
-tier     = 2
+tier     = 1
+kind     = "pdf"
+filename = "Iooss-2010-Q2-Metamodel-Validation.pdf"
+url      = "https://arxiv.org/pdf/1001.1049"
+note     = "Q2 metamodel validation (Iooss et al. 2010) — defines the Q2 predictivity coefficient (LOO cross-validation score 0→1) for surrogate models; gives you a concrete metric to assess XGBoost accuracy before trusting it to guide CMA-ES"
+
+# =========================================================================
+# Tier 1 — Must-have: directly supports the ISP optimization pipeline
+# =========================================================================
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Lundberg-2017-SHAP.pdf"
+url      = "https://arxiv.org/pdf/1705.07874"
+note     = "SHAP: unified model-agnostic feature importance — more reliable than XGBoost gain importance for register sensitivity analysis"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Constantine-2014-Active-Subspaces.pdf"
+url      = "https://arxiv.org/pdf/1304.2070"
+note     = "Active subspace methods — principled dimension reduction for optimization; foundational for 200D → 20-40D register reduction"
+
+[[resource]]
+tier     = 1
 kind     = "pdf"
 filename = "Bartz-Beielstein-Surrogate-BBO.pdf"
 url      = "https://www.lix.polytechnique.fr/~liberti/itor16.pdf"
-note     = "Surrogate-based methods for black-box optimization"
+note     = "Surrogate-based BBO: infill strategies, iterative retraining — theoretical foundation for the validation + retraining loop"
 
 [[resource]]
-tier     = 2
+tier     = 1
 kind     = "pdf"
-filename = "Meindl-2025-GPTOpt.pdf"
-url      = "https://arxiv.org/pdf/2510.25404"
-note     = "Teaching LLMs to do Interpretable Black-Box Optimization"
-
-[[resource]]
-tier     = 2
-kind     = "pdf"
-filename = "Li-2025-LLaMEA-BO.pdf"
-url      = "https://arxiv.org/pdf/2505.21034"
-note     = "LLM Evolutionary Algorithm for BO Algorithms"
-
-# =========================================================================
-# Tier 3 — Reference / supporting
-# =========================================================================
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "Wang-2018-EBO.pdf"
-url      = "https://arxiv.org/pdf/1706.01445"
-note     = "Batched Large-scale BO in High-dim Spaces (EBO)"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "Anahideh-2019-HDBBO-Uncertainty.pdf"
-url      = "https://arxiv.org/pdf/1911.02457"
-note     = "High-Dimensional BBO Under Uncertainty"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "Wang-2025-LLM-Agent-HPO.pdf"
-url      = "https://arxiv.org/pdf/2506.15167"
-note     = "LLM Agent for Hyper-Parameter Optimization"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "TCS-2025-Small-LLMs-HPT.pdf"
-url      = "https://arxiv.org/pdf/2509.15561"
-note     = "Small LLMs with Expert Blocks for HPT (TCS)"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "VenkatRamanan-LM-MA-ES.pdf"
+filename = "Loshchilov-2017-LM-MA-ES.pdf"
 url      = "https://arxiv.org/pdf/1705.06693"
-note     = "Limited-Memory Matrix Adaptation Evolution Strategy"
+note     = "LM-MA-ES: O(n log n) CMA-ES variant for 200D+ problems — recommended optimizer for full search space"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Nomura-2024-CMA-ES-Learning-Rate.pdf"
+url      = "https://arxiv.org/pdf/2401.15876"
+note     = "LRA-CMA-ES: auto-adapts learning rate via SNR — handles noisy or multimodal IQ landscapes"
+
+# =========================================================================
+# Tier 1 — Dimension reduction / sensitivity analysis: exact methods
+# =========================================================================
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Chen-2016-XGBoost.pdf"
+url      = "https://arxiv.org/pdf/1603.02754"
+note     = "XGBoost paper (Chen & Guestrin 2016) — explains the three built-in importance types: gain (contribution to metric), cover (samples affected), frequency (split count); gain is the right one for register ranking"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Lundberg-2018-TreeSHAP.pdf"
+url      = "https://arxiv.org/pdf/1802.03888"
+note     = "TreeSHAP: exact, fast SHAP values for tree models (XGBoost, LightGBM, RF) — directly run on your trained XGBoost to get per-register per-metric SHAP importance; more reliable than gain importance for correlated registers"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Herman-2017-SALib.pdf"
+url      = "https://joss.theoj.org/papers/10.21105/joss.00097.pdf"
+note     = "SALib: Python library implementing Morris screening + Sobol indices — two exact sensitivity analysis methods; Morris finds which registers matter with few runs, Sobol quantifies variance contribution per register"
+
+# NOTE: Add when URL confirmed —
+#   Campolongo, Cariboni & Saltelli 2007 "An effective screening design for sensitivity analysis
+#   of large models" — Environmental Modelling & Software 22(10):1509–1518.
+#   DOI: 10.1016/j.envsoft.2006.10.004 — improved Morris sampling that maximizes spread in
+#   factor space; practical guide for screening 200 registers with few runs
+#
+#   Saltelli et al. 2010 "Variance based sensitivity analysis of model output"
+#   Computer Physics Communications 181(2):259–270. DOI: 10.1016/j.cpc.2009.09.018
+#   — standard Sobol total-index estimator formula used in SALib
+#
+#   Saltelli et al. 2008 "Global Sensitivity Analysis: The Primer" (Wiley book)
+#   THE practical reference; covers Morris, Sobol, FAST with worked examples and Python code
+
+# =========================================================================
+# Tier 1 — LLM code analysis: extracting register info from C++ source
+# =========================================================================
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Wei-2022-Chain-of-Thought.pdf"
+url      = "https://arxiv.org/pdf/2201.11903"
+note     = "Chain-of-Thought prompting — foundational for prompting LLMs to reason step-by-step; directly relevant to structured register extraction (ranges, dead zones, thresholds) from C++ code"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Roziere-2023-CodeLlama.pdf"
+url      = "https://arxiv.org/pdf/2308.12950"
+note     = "Code Llama: code-specialized LLM (Meta 2023) — outperforms general LLMs on C++ analysis tasks; better choice than GPT-4 for ISP block file analysis"
+
+[[resource]]
+tier     = 1
+kind     = "pdf"
+filename = "Hou-2023-LLMs-for-SE.pdf"
+url      = "https://arxiv.org/pdf/2308.10620"
+note     = "Survey: LLMs for Software Engineering (2023) — covers code understanding, summarization, information extraction; maps what LLMs can and cannot reliably do on source code"
+
+# NOTE: Add when URL confirmed —
+#   LLMDFA (2024): "Analyzing Dataflow in Code with Large Language Models"
+#   Directly relevant: tracks how values flow through code, similar to tracing register usage across ISP blocks
+#
+#   Papers on LLM-based constraint/specification inference from code:
+#   Look for: "LLM program analysis", "LLM static analysis", "LLM type inference"
+#   These cover extracting implicit contracts and value constraints from source code
+
+# =========================================================================
+# Tier 2 — Active learning: theoretical foundation for the retraining loop
+# =========================================================================
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Settles-2009-Active-Learning-Survey.pdf"
+url      = "http://burrsettles.com/pub/settles.activelearning.pdf"
+note     = "Active Learning Literature Survey (Settles 2009) — full taxonomy of adaptive sampling strategies; your validation→disagreement→targeted sampling loop is query-by-committee active learning; this gives the theoretical framing"
+
+# =========================================================================
+# Tier 2 — IQ metrics: what MTF and false color actually measure
+# =========================================================================
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Burns-2000-Slanted-Edge-MTF.pdf"
+url      = "https://www.imaging.org/common/uploaded%20files/pdfs/Papers/2000/PICS-0-81/1621.pdf"
+note     = "Slanted-edge MTF for digital cameras (Burns 2000) — the standard algorithm behind ISO 12233 MTF measurement; explains what your MTF score actually measures and how it is computed from RGB chart images"
+
+# NOTE: Add when URL confirmed —
+#   ISO 12233 standard — defines spatial frequency response test chart and measurement protocol
+#   Not freely downloadable; available from iso.org
+
+# =========================================================================
+# Tier 2 — Recommended: useful context and optimizer variants
+# =========================================================================
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Gonzalez-2024-HDBO-Survey.pdf"
+url      = "https://arxiv.org/pdf/2406.04739"
+note     = "NeurIPS 2024 HDBO survey — 7-category taxonomy of high-dim BO methods; useful regime map"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Eriksson-2019-TuRBO.pdf"
+url      = "https://arxiv.org/pdf/1910.01739"
+note     = "TuRBO: trust-region BO — ruled out for 300/min regime but standard reference for high-dim BO"
+
+[[resource]]
+tier     = 2
+kind     = "pdf"
+filename = "Koratikere-2025-SNBO.pdf"
+url      = "https://arxiv.org/pdf/2508.03827"
+note     = "SNBO: NN surrogate without uncertainty estimation — documents train-once surrogate limitations relevant to your XGBoost setup"
+
+[[resource]]
+tier     = 2
+kind     = "html"
+filename = "CMA-ES-homepage.html"
+url      = "https://cma-es.github.io/"
+note     = "Hansen's CMA-ES reference: tutorial, parameter defaults, variant links (IPOP, BIPOP)"
+
+# NOTE: Add when URL found —
+#   Jones-1998-EGO.pdf  "Efficient Global Optimization of Expensive Black-Box Functions"
+#   DOI: 10.1023/A:1008306431147 — foundational infill / EGO paper; cited by Bartz-Beielstein
+#
+#   Auger-Hansen-2005-IPOP-CMA-ES.pdf  "A Restart CMA-ES with Increasing Population Size"
+#   CEC 2005 — standard multi-start restart strategy for CMA-ES
+
+# =========================================================================
+# Tier 3 — Reference / background
+# =========================================================================
 
 [[resource]]
 tier     = 3
 kind     = "pdf"
 filename = "AdaScale-TuRBO-2026.pdf"
 url      = "https://arxiv.org/pdf/2604.22967"
-note     = "Rethinking TuRBO in High Dimensions (AdaScale-TuRBO)"
+note     = "AdaScale-TuRBO: GP degeneracy diagnosis — reference for trust-region BO failure modes"
 
 [[resource]]
 tier     = 3
 kind     = "pdf"
 filename = "MG-TuRBO-2026.pdf"
 url      = "https://arxiv.org/pdf/2604.08569"
-note     = "Memory-Guided Trust-Region BO"
+note     = "MG-TuRBO: memory-guided restarts via basin clustering — reference only, wrong regime for 300/min"
+
+[[resource]]
+tier     = 3
+kind     = "pdf"
+filename = "Wang-2018-EBO.pdf"
+url      = "https://arxiv.org/pdf/1706.01445"
+note     = "EBO: additive GP for high-dim — background reference"
 
 [[resource]]
 tier     = 3
 kind     = "pdf"
 filename = "Namura-2024-REI.pdf"
 url      = "https://arxiv.org/pdf/2412.11456"
-note     = "Regional Expected Improvement for High-Dim BO"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "RL4ReAl-2022.pdf"
-url      = "https://arxiv.org/pdf/2204.02013"
-note     = "Reinforcement Learning for Register Allocation"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "GRACE-2025.pdf"
-url      = "https://arxiv.org/pdf/2510.13176"
-note     = "Globally-Seeded Compiler Auto-Tuning"
-
-[[resource]]
-tier     = 3
-kind     = "pdf"
-filename = "Scalable-NN-BBO-2025.pdf"
-url      = "https://arxiv.org/pdf/2508.03827"
-note     = "Scalable Neural Network-Based BBO"
-
-# Web pages (saved as HTML, converted to .md by convert_to_md.py)
-
-[[resource]]
-tier     = 3
-kind     = "html"
-filename = "CMA-ES-homepage.html"
-url      = "https://cma-es.github.io/"
-note     = "Hansen's CMA-ES reference homepage"
-
-[[resource]]
-tier     = 3
-kind     = "html"
-filename = "MLGO-Google-Blog.html"
-url      = "https://research.google/blog/mlgo-a-machine-learning-framework-for-compiler-optimization/"
-note     = "Google Research blog post on MLGO"
+note     = "REI: regional EI acquisition function — reference for acquisition function alternatives"
