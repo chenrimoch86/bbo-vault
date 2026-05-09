@@ -72,3 +72,5 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[isp-register-optimization]] — Recommendation: BBO method selection for ~200 ISP registers → image quality optimization (2026-05-08)
 - [[Problem_Definition]] — Full problem definition: ISP register optimization, constraints, current approach, recommended direction (2026-05-08)
 - [[cpp-register-profiling-workflow]] — Workflow: LLM analysis of C++ ISP block files to extract register profiles, effective ranges, dead zones, thresholds (2026-05-08)
+- [[cma-es-explained]] — CMA-ES algorithm explained: core loop, update mechanisms, BBO relationship, ISP application, variants (2026-05-09)
+- [[cma-es-step-by-step]] — CMA-ES full step-by-step breakdown: init, sampling, ranking, mean update, evolution paths, CSA, covariance update — one diagram per step (2026-05-09)

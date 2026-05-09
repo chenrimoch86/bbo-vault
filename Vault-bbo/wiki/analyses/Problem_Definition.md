@@ -13,18 +13,26 @@ Complete definition of the ISP register optimization problem, constraints, curre
 
 ## The System
 
-An **Image Signal Processing (ISP) pipeline** implemented as a chain of C++ modules — each ISP block is a separate file. The full chain is compiled and run as a software simulator. The simulator is the ground truth — there is no real hardware involved.
+An **Image Signal Processing (ISP) pipeline** implemented as a chain of C++ modules — each ISP block is a separate file. The full chain is compiled and run as a software simulator.
 
-**Pipeline:**
+**Full evaluation pipeline:**
 
 ```mermaid
 flowchart LR
-    A[Registers\n~200] --> B[C++ ISP chain\nmultiple blocks]
-    B --> C[RGB image\nafter demosaic]
-    C --> D[IQ metrics\nmeasured on RGB]
+    A["Fixed raw test scene<br/>always same input"] --> B["Register config<br/>~200 registers"]
+    B --> C["C++ ISP Simulator<br/>raw + registers → RGB"]
+    C --> D["RGB of test scene<br/>chart targets visible"]
+    D --> E["IQ Measurement tool<br/>analyzes chart regions"]
+    E --> F["MTF score<br/>False color score<br/>Desaturation score<br/>..."]
 ```
 
-The IQ metrics are **not** computed from registers directly — they are measured on the final RGB output image after the full pipeline runs. The C++ source code does not contain the metric computation.
+Two distinct steps:
+1. **C++ ISP Simulator** — takes the fixed raw test scene + register config, outputs an RGB image. Does not compute any metrics.
+2. **IQ Measurement tool** — takes the RGB image, analyzes specific chart regions (MTF chart, false color chart, desaturation chart, etc.), outputs one score per metric.
+
+The raw input is **always the same fixed test scene** — the only variable is the register configuration. Evaluations are fully deterministic.
+
+**Register → metric relationship is unknown.** We know which registers belong to which ISP block (from C++ source), and we have approximate domain knowledge of which blocks affect which image properties — but the actual register → IQ metric mapping must be discovered empirically via XGBoost feature importance.
 
 ---
 
@@ -38,13 +46,18 @@ The IQ metrics are **not** computed from registers directly — they are measure
 
 ---
 
-## The Simulator
+## The Evaluation System
 
-- Runs the full ISP pipeline + IQ metric measurement end-to-end
-- **The simulator is the ground truth oracle**
-- **300 runs/minute** via parallel CPUs
-- Each individual run takes 2–4 minutes; parallelization gives 300/min
+| Component | Input | Output |
+|---|---|---|
+| C++ ISP Simulator | Fixed raw image + register config | RGB image |
+| IQ Measurement tool | RGB image | MTF, false color, desaturation, ... scores |
+| **Full evaluation** | Register config | IQ metric scores |
+
+- **300 runs/minute** via parallel CPUs — includes both simulator + IQ measurement
+- Each individual run takes 2–4 minutes total; parallelization gives 300/min
 - Throughput: 18,000 configs/hour, 432,000 configs/day
+- The full evaluation (simulator + IQ measurement) is the ground truth oracle
 
 ---
 
@@ -52,9 +65,9 @@ The IQ metrics are **not** computed from registers directly — they are measure
 
 ```mermaid
 flowchart TD
-    A[Collect 300,000\nsimulator runs] --> B[Train XGBoost\nsurrogate once]
+    A["Collect 300,000<br/>simulator runs"] --> B["Train XGBoost<br/>surrogate once"]
     B --> C[Freeze XGBoost]
-    C --> D[GA with random\nstarting points]
+    C --> D["GA with random<br/>starting points"]
     D --> E[Best predicted config]
 ```
 
@@ -70,9 +83,10 @@ flowchart TD
 
 1. **GA is wrong optimizer** for continuous 200D space — designed for discrete/combinatorial problems, converges poorly
 2. **Random starting points** spread poorly in 200D
-3. **Frozen surrogate** — never validated against the simulator after training; GA may explore underrepresented regions where XGBoost is wrong
-4. **No feedback loop** — no mechanism to catch XGBoost errors against the true simulator
-5. **Full 200D search** — most registers likely have minimal effect on metrics; searching all 200 dilutes optimization
+3. **Train-once surrogate** — 300k broadly-sampled examples cover 200D space thinly. CMA-ES converges to a narrow high-performance region that is almost certainly underrepresented in the original training set. XGBoost accuracy is lowest exactly where it matters most.
+4. **Frozen surrogate** — never updated after training; no mechanism to detect or correct prediction errors in the optimal region
+5. **No feedback loop** — no mechanism to catch XGBoost errors against the true simulator
+6. **Full 200D search** — most registers likely have minimal effect on metrics; searching all 200 dilutes optimization
 
 ---
 
@@ -80,10 +94,11 @@ flowchart TD
 
 | Asset | Details |
 |---|---|
-| Training data | 300k labeled simulator runs |
-| Surrogate model | XGBoost trained on 300k, with feature importance |
-| Source code | C++ files for every ISP block |
-| Simulator throughput | 300 runs/min, parallelized, ground truth |
+| Training data | 300k (register config, IQ metrics) pairs — collected via simulator + IQ measurement |
+| Surrogate model | XGBoost: registers → predicted IQ metrics, trained on 300k pairs |
+| Source code | C++ files for every ISP block — gives register → ISP block mapping |
+| Full evaluation | Simulator + IQ measurement, 300 runs/min parallelized |
+| Unknown | Which registers affect which IQ metrics — discovered via XGBoost feature importance |
 
 ---
 
@@ -91,12 +106,12 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[XGBoost feature importance\n+ C++ static analysis] --> B[Active subspace\n~20-40 of 200 registers]
-    B --> C[Multi-start CMA-ES\nover XGBoost]
+    A["XGBoost feature importance<br/>+ C++ static analysis"] --> B["Active subspace<br/>~20-40 of 200 registers"]
+    B --> C["Multi-start CMA-ES<br/>over XGBoost"]
     C --> D[Top-K candidate configs]
-    D --> E[Validate on simulator\n300/min = minutes]
-    E --> F{XGBoost matches\nsimulator?}
-    F -- No --> G[Targeted resampling\nretrain XGBoost]
+    D --> E["Validate on simulator<br/>300/min = minutes"]
+    E --> F{"XGBoost matches<br/>simulator?"}
+    F -- No --> G["Targeted resampling<br/>retrain XGBoost"]
     G --> C
     F -- Yes --> H([Best validated config])
 ```
@@ -104,7 +119,7 @@ flowchart TD
 1. **XGBoost feature importance** → identify ~20–40 active registers from 200 (free, existing model)
 2. **C++ static analysis** → eliminate dead/write-only registers (free, zero runs)
 3. **Replace GA with multi-start CMA-ES** — adapts to landscape geometry, far more efficient in continuous high-D
-4. **Simulator validation loop** — validate top-K CMA-ES configs on simulator (minutes at 300/min), retrain XGBoost on disagreement regions, repeat until surrogate is accurate
+4. **Iterative surrogate retraining** — CMA-ES finds promising region → validate on simulator → add 2–5k targeted samples in that region → retrain XGBoost → repeat. Each iteration costs ~17 minutes at 300/min.
 5. **Final output** is the simulator-validated best config
 
 ---
@@ -117,11 +132,24 @@ Three changes ranked by impact:
 
 GA is the wrong tool for continuous 200D space — designed for discrete/combinatorial problems. CMA-ES adapts its search distribution to the landscape geometry as it explores, directly addressing local optima and poor coverage. Same surrogate, drop-in replacement.
 
-### 2. Add a Simulator Validation Loop — currently missing entirely
+### 2. Switch from Train-Once to Iterative Retraining
+
+Training XGBoost once on 300k broadly-sampled points gives good global coverage but poor accuracy in the narrow high-performance region CMA-ES will converge to. This is documented in [[koratikere-2025-snbo]] as a known limitation of train-once surrogates, and [[bartz-beielstein-2016-surrogate-bbo]] establishes iterative surrogate updating (infill strategy) as the standard practice.
+
+**The iterative loop:**
+- CMA-ES finds promising region
+- Validate top-K on simulator (minutes at 300/min)
+- If XGBoost is wrong → sample 2–5k targeted points in that region (~17 min)
+- Retrain XGBoost on 300k + targeted points
+- Repeat 3–5 iterations until surrogate is accurate where it matters
+
+Each iteration is cheap. The 300k baseline stays — only a small targeted batch is added per round.
+
+### 3. Add a Simulator Validation Loop — currently missing entirely
 
 The current pipeline optimizes over XGBoost, takes the best config, and trusts it blindly. There is no step that checks whether XGBoost's prediction is correct at that point. With 300 runs/min, validating the top-K CMA-ES configs on the simulator costs minutes. If XGBoost is wrong in that region, resample and retrain. Right now this failure mode is invisible.
 
-### 3. Reduce Search Space Before Optimizing — 200D is too wide
+### 4. Reduce Search Space Before Optimizing — 200D is too wide
 
 Most of the 200 registers likely have minimal effect on most metrics. Two free sources identify which ones matter:
 - **XGBoost feature importance** — already computed from the existing trained model, zero new runs
@@ -133,11 +161,11 @@ Reducing to 20–40 active registers before CMA-ES runs makes the search dramati
 
 ```mermaid
 flowchart LR
-    A[Search space reduction\nfree, do first] --> B[GA → CMA-ES\ndrop-in replacement]
-    B --> C[Add simulator\nvalidation loop]
+    A["Search space reduction<br/>free, do first"] --> B["GA → CMA-ES<br/>drop-in replacement"]
+    B --> C["Iterative retraining<br/>+ validation loop"]
 ```
 
-Do them in this order — reduce the space first so CMA-ES operates in the right dimensions from the start.
+Do them in this order — reduce the space first so CMA-ES and the retraining loop operate in the right dimensions from the start.
 
 ---
 

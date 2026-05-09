@@ -19,11 +19,11 @@ Bayesian Optimization (BO) is a sequential, model-based strategy for optimizing 
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[Space-filling design\nLatin hypercube / Sobol]
-    B --> C[Fit surrogate\nGaussian Process]
-    C --> D[Maximize acquisition function\nEI / UCB / PI]
-    D --> E[Evaluate true function\nat selected point]
-    E --> F{Budget\nexhausted?}
+    A([Start]) --> B["Space-filling design<br/>Latin hypercube / Sobol"]
+    B --> C["Fit surrogate<br/>Gaussian Process"]
+    C --> D["Maximize acquisition function<br/>EI / UCB / PI"]
+    D --> E["Evaluate true function<br/>at selected point"]
+    E --> F{"Budget<br/>exhausted?"}
     F -- No --> C
     F -- Yes --> G([Return best point])
 ```

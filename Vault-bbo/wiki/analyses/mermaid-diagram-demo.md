@@ -16,11 +16,11 @@ Open this file in Obsidian to see rendered diagrams.
 
 ```mermaid
 flowchart TD
-    A([Start]) --> B[Space-filling design\nLatin hypercube / Sobol]
-    B --> C[Fit surrogate\nGaussian Process]
-    C --> D[Maximize acquisition function\nEI / UCB / PI]
-    D --> E[Evaluate true function\nat selected point]
-    E --> F{Budget\nexhausted?}
+    A([Start]) --> B["Space-filling design<br/>Latin hypercube / Sobol"]
+    B --> C["Fit surrogate<br/>Gaussian Process"]
+    C --> D["Maximize acquisition function<br/>EI / UCB / PI"]
+    D --> E["Evaluate true function<br/>at selected point"]
+    E --> F{"Budget<br/>exhausted?"}
     F -- No --> C
     F -- Yes --> G([Return best observed point])
 ```
@@ -31,17 +31,17 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    ROOT["LLM × Optimization\nHybrids"] --> P1["LLM as Optimizer\nOPRO"]
+    ROOT["LLM × Optimization<br/>Hybrids"] --> P1["LLM as Optimizer<br/>OPRO"]
     ROOT --> P2["LLM as Surrogate"]
     ROOT --> P3["Adaptive Switching"]
-    ROOT --> P4["LLM Evolves Algorithms\nLLaMEA-BO"]
-    ROOT --> P5["Expert-Block Small LLMs\nTCS / Naphade 2025"]
+    ROOT --> P4["LLM Evolves Algorithms<br/>LLaMEA-BO"]
+    ROOT --> P5["Expert-Block Small LLMs<br/>TCS / Naphade 2025"]
 
-    P2 --> P2a["Zero-shot warmstart\nLLAMBO"]
-    P2 --> P2b["Fine-tuned on BO trajectories\nGPTOpt / Llama 3.1"]
+    P2 --> P2a["Zero-shot warmstart<br/>LLAMBO"]
+    P2 --> P2b["Fine-tuned on BO trajectories<br/>GPTOpt / Llama 3.1"]
 
-    P3 --> P3a["Uncertainty-gated switching\nBORA"]
-    P3 --> P3b["Federated-style weighting\nLLINBO"]
+    P3 --> P3a["Uncertainty-gated switching<br/>BORA"]
+    P3 --> P3b["Federated-style weighting<br/>LLINBO"]
 ```
 
 ---

@@ -5,6 +5,54 @@ Grep pattern for entries: `grep "^## \[" wiki/log.md`
 
 ---
 
+## [2026-05-09] update | Expanded GA vs CMA-ES comparison in isp-register-optimization
+
+- Replaced brief table with full mechanistic explanation of why GA fails on continuous landscapes
+- Added: crossover destroys correlations problem, axis-aligned mutation problem, no cross-generation memory
+- Added: how CMA-ES covariance matrix learns register correlations, evolution paths remember direction, CSA adapts step size
+- Updated diagram and comparison table with new dimensions
+- File updated: wiki/analyses/isp-register-optimization.md
+
+---
+
+## [2026-05-09] update | Clarified validation vs retraining loop in isp-register-optimization
+
+- Split "Iterative Surrogate Retraining Loop" into two explicit steps:
+  - Step 1 Validation: always run top-K configs through full evaluation (ISP simulator + IQ measurement); ~20 sec; catches XGBoost inaccuracy before deploying
+  - Step 2 Targeted Retraining: only triggered on disagreement; sample 2-5k configs in disagreement region, run full evaluation, retrain XGBoost; ~7-17 min
+- Added cost table and explanation of why 2-5k samples are needed (not just top-K)
+- Added explanation of why targeted > random resampling
+- File updated: wiki/analyses/isp-register-optimization.md
+
+---
+
+## [2026-05-09] update | Pipeline correction across all analyses
+
+- Corrected pipeline: simulator = raw + registers → RGB only; IQ measurement is a separate tool
+- Raw input is fixed (same test scene with chart targets: MTF, false color, desaturation, etc.)
+- 300 runs/min covers both simulator + IQ measurement together
+- Removed overclaim: register → metric mapping is still unknown; only register → ISP block is known from C++
+- Files updated: Problem_Definition.md, isp-register-optimization.md, cma-es-step-by-step.md, cma-es-explained.md, cpp-register-profiling-workflow.md
+
+---
+
+## [2026-05-09] analysis | CMA-ES Step-by-Step Breakdown
+
+- Analysis page: wiki/analyses/cma-es-step-by-step.md
+- One diagram per step: init, sampling, evaluation+ranking, mean update, evolution paths (p_c + p_sigma), CSA step size, covariance update (rank-1 + rank-mu), termination, full loop, what C learns, variants
+- index.md updated
+
+---
+
+## [2026-05-09] query | CMA-ES Algorithm and BBO Relationship
+
+- Question: what is CMA-ES and how does it relate to black-box optimization?
+- Analysis page: wiki/analyses/cma-es-explained.md
+- Covers: core loop, m/C/σ updates, rank-invariance, inverse Hessian insight, CMA-ES vs BO regime, ISP application, variants table
+- index.md updated
+
+---
+
 ## [2026-05-08] analysis | C++ ISP Register Profiling Workflow (updated — honest split)
 
 - Analysis page: wiki/analyses/cpp-register-profiling-workflow.md

@@ -11,16 +11,30 @@ Workflow for using LLM analysis of C++ ISP block source files to extract structu
 
 ---
 
-## Two-Source Register Profiling
+## What the C++ Code Tells Us (and What It Does Not)
 
-Register knowledge comes from two complementary sources:
+The C++ source gives us the **register → ISP block** mapping — which registers each block reads. It does **not** tell us which registers affect which IQ metrics. That relationship runs through the full pipeline:
 
 ```mermaid
 flowchart LR
-    A[C++ source code] --> B[LLM static analysis\nfree, zero runs]
-    C[Simulator] --> D[Targeted experiments\nminimal runs]
-    B --> E[Structural knowledge\nexplicit patterns in code]
-    D --> F[Empirical knowledge\nmathematical behavior]
+    A["Register value"] --> B["ISP block<br/>known from C++"]
+    B --> C["Effect on RGB image<br/>approximate domain knowledge"]
+    C --> D["IQ metric score<br/>MTF / false color / desaturation"]
+    D --> E["register → metric link<br/>UNKNOWN until empirical data"]
+```
+
+The gap between C and D — how an image change translates to a specific metric score — requires running the IQ measurement tool on real RGB outputs. Only XGBoost feature importance on the 300k training pairs reveals this empirically.
+
+## Two-Source Register Profiling
+
+Register structural knowledge comes from two complementary sources:
+
+```mermaid
+flowchart LR
+    A[C++ source code] --> B["LLM static analysis<br/>free, zero runs"]
+    C["Full evaluation<br/>simulator + IQ measurement"] --> D["Targeted experiments<br/>minimal runs"]
+    B --> E["Structural knowledge:<br/>register → ISP block<br/>ranges, dead registers, categoricals"]
+    D --> F["Empirical knowledge:<br/>mathematical behavior<br/>saturation, dead zones"]
     E --> G[Complete register profile]
     F --> G
 ```
@@ -138,19 +152,19 @@ float raw = compute(register_x);
 
 ```mermaid
 flowchart TD
-    A([C++ source files\none per ISP block]) --> B[LLM analysis per file]
+    A(["C++ source files<br/>one per ISP block"]) --> B[LLM analysis per file]
     B --> C{Pattern type}
-    C --> D[Explicit clamp/dead zone\n/categorical/dead/dependency]
-    C --> E[No explicit pattern\nmath/cross-block/downstream]
-    D --> F[High-confidence profile\nno runs needed]
-    E --> G[Flag as low-confidence\nmark for verification]
-    F --> H[Register catalog\nwith confidence tags]
+    C --> D["Explicit clamp/dead zone<br/>/categorical/dead/dependency"]
+    C --> E["No explicit pattern<br/>math/cross-block/downstream"]
+    D --> F["High-confidence profile<br/>no runs needed"]
+    E --> G["Flag as low-confidence<br/>mark for verification"]
+    F --> H["Register catalog<br/>with confidence tags"]
     G --> H
-    H --> I[Targeted simulator experiments\nlow-confidence registers only]
-    I --> J[3-point sweep per register\na, mid, b+epsilon\nat 300/min = seconds]
+    H --> I["Targeted simulator experiments<br/>low-confidence registers only"]
+    I --> J["3-point sweep per register<br/>a, mid, b+epsilon<br/>at 300/min = seconds"]
     J --> K[Confirm or extend range]
-    K --> L[Complete register profile\nall registers resolved]
-    L --> M[Feed into CMA-ES\nwith accurate bounds]
+    K --> L["Complete register profile<br/>all registers resolved"]
+    L --> M["Feed into CMA-ES<br/>with accurate bounds"]
 ```
 
 ---
@@ -188,11 +202,11 @@ For each low-confidence register, run a 3-point sweep:
 
 ```mermaid
 flowchart LR
-    A[Low-confidence register\nrange unknown] --> B[Run simulator at\nmin, mid, max of syntactic range]
-    B --> C{Metric changes\nacross full range?}
-    C -- No change beyond mid --> D[Effective upper bound = mid\nrun binary search to tighten]
-    C -- Changes throughout --> E[Full syntactic range is active\nno reduction possible]
-    C -- No change at all --> F[Register is dead\nremove from search space]
+    A["Low-confidence register<br/>range unknown"] --> B["Run simulator at<br/>min, mid, max of syntactic range"]
+    B --> C{"Metric changes<br/>across full range?"}
+    C -- No change beyond mid --> D["Effective upper bound = mid<br/>run binary search to tighten"]
+    C -- Changes throughout --> E["Full syntactic range is active<br/>no reduction possible"]
+    C -- No change at all --> F["Register is dead<br/>remove from search space"]
 ```
 
 At 300 runs/minute, verifying 50 low-confidence registers takes under 1 minute.
@@ -217,9 +231,9 @@ One table per ISP block:
 
 ```mermaid
 flowchart TD
-    A[LLM register profiling\nstructural knowledge] --> C[Active register set\nwith accurate bounds]
-    B[XGBoost feature importance\nempirical knowledge from 300k runs] --> C
-    C --> D[Multi-start CMA-ES\nin reduced effective space]
+    A["LLM register profiling<br/>structural knowledge"] --> C["Active register set<br/>with accurate bounds"]
+    B["XGBoost feature importance<br/>empirical knowledge from 300k runs"] --> C
+    C --> D["Multi-start CMA-ES<br/>in reduced effective space"]
 ```
 
 LLM profiling and XGBoost importance are complementary:
