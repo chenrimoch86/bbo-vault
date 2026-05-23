@@ -48,6 +48,12 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[wei-2022-chain-of-thought]] — Chain-of-Thought: few-shot prompting with reasoning steps; foundational for ISP C++ extraction (2026-05-10)
 - [[roziere-2023-code-llama]] — Code Llama: Meta's code-specialized LLM; 34B Instruct recommended for ISP block analysis (2026-05-10)
 - [[hou-2023-llms-for-se]] — LLMs for SE survey: 395 papers; maps reliable vs. unreliable LLM code tasks (2026-05-10)
+- [[storn-price-1997-differential-evolution]] — Differential Evolution: difference-vector mutation, 3 params, beats SA/GA/ES on continuous testbeds (2026-05-23)
+- [[beyer-schwefel-2002-evolution-strategies]] — Foundational ES survey: (μ/ρ +,λ) notation, plus/comma selection, mutation self-adaptation (2026-05-23)
+- [[casas-2015-ga-multimodal-review]] — GA multimodal/niching review: island, fitness sharing, clearing, crowding (2026-05-23)
+- [[hrstka-2009-ea-comparison]] — Benchmark of DE/SADE/RASA/IASA; DE degrades past ~30D, mutation+restart matter (2026-05-23)
+- [[whitley-1994-ga-tutorial]] — Canonical GA primer: schema theorem, selection, crossover, encodings (⚠ bad conversion, flagged) (2026-05-23)
+- [[auger-hansen-2005-ipop-cma-es]] — IPOP-CMA-ES: restart with doubling population size for multimodal escape (⚠ bad conversion, flagged) (2026-05-23)
 
 ---
 
@@ -58,6 +64,11 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[david-eriksson]] — Creator of TuRBO; Cornell / Uber AI (2026-05-08)
 - [[google]] — Google / Google Research / Google DeepMind; MLGO, OPRO, EBO (2026-05-08)
 - [[llvm]] — Open-source compiler infrastructure; dominant platform for autotuning research (2026-05-08)
+- [[hans-paul-schwefel]] — Co-founder of Evolution Strategies; TU Berlin / Dortmund (2026-05-23)
+- [[hans-georg-beyer]] — ES theorist; co-author of the comprehensive ES survey (2026-05-23)
+- [[rainer-storn]] — Co-inventor of Differential Evolution; Siemens (2026-05-23)
+- [[kenneth-price]] — Co-inventor of Differential Evolution (2026-05-23)
+- [[darrell-whitley]] — GA researcher; Genitor/CHC; author of the GA tutorial; Colorado State (2026-05-23)
 
 ---
 
@@ -83,6 +94,10 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[latin-hypercube-sampling]] — Space-filling design for 200D; lower variance than random for surrogate fitting (2026-05-10)
 - [[active-learning]] — Query-by-committee adaptive sampling; theoretical backing for ISP targeted retraining loop (2026-05-10)
 - [[metamodel-validation]] — Q2 coefficient, regional validation, acceptance threshold before trusting surrogate (2026-05-10)
+- [[evolution-strategies]] — ES family: (μ/ρ +,λ), self-adapted mutation strength; the lineage CMA-ES descends from (2026-05-23)
+- [[genetic-algorithm]] — GA fundamentals: encodings, selection, crossover, schema theorem; discrete/combinatorial home turf (2026-05-23)
+- [[differential-evolution]] — DE: self-scaling difference-vector mutation; 3 params; continuous baseline vs CMA-ES (2026-05-23)
+- [[multimodal-optimization]] — Niching/crowding/island methods to find many optima at once (≠ multi-objective) (2026-05-23)
 
 ---
 
@@ -95,3 +110,4 @@ Content catalog. Updated on every ingest or analysis. Read this first when answe
 - [[cpp-register-profiling-workflow]] — Workflow: LLM analysis of C++ ISP block files to extract register profiles, effective ranges, dead zones, thresholds (2026-05-08)
 - [[cma-es-explained]] — CMA-ES algorithm explained: core loop, update mechanisms, BBO relationship, ISP application, variants (2026-05-09)
 - [[cma-es-step-by-step]] — CMA-ES full step-by-step breakdown: init, sampling, ranking, mean update, evolution paths, CSA, covariance update — one diagram per step (2026-05-09)
+- [[cma-es-vs-ga-computational-cost]] — CMA-ES vs GA: two cost axes, surrogate-query nuance, block-diagonal covariance for ISP block separability (2026-05-23)

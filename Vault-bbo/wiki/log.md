@@ -5,6 +5,60 @@ Grep pattern for entries: `grep "^## \[" wiki/log.md`
 
 ---
 
+## [2026-05-23] update | CMA-ES vs GA — added mixed continuous+categorical handling section
+
+- Page: wiki/analyses/cma-es-vs-ga-computational-cost.md
+- Added section "Mixed continuous + categorical registers": three register types by difficulty (continuous/binary/unordered-mode); why not to flatten (fake order + conditional inert registers); recommended outer-categorical → inner-CMA-ES architecture with per-branch masking; decision rule by # categorical combos (enumerate vs GA/TPE outer); in-loop alternative (CMA-ES-with-Margin / pycma integer_variables); practical steps
+- Reason: human's registers also include enablers/disablers and modes → mixed-variable problem
+- Open item: CMA-ES with Margin (Hamano/Nomura GECCO 2022) referenced but not ingested
+
+---
+
+## [2026-05-23] update | CMA-ES vs GA — added continuity clarification (smoothness ≠ monotonicity, storage width ≠ type)
+
+- Page: wiki/analyses/cma-es-vs-ga-computational-cost.md
+- Added subsection "What counts as continuous — smoothness, not monotonicity, and not storage width": continuous = ordered + locally smooth (NOT monotonic); thresholds with a sweet spot / direction flip mid-range are still continuous; 8/16/24-bit = resolution not category (quasi-continuous dials); truly discrete = label not quantity; plateaus/kinks/multimodality still favor CMA-ES; integer handling via rounding + CMA-ES-with-Margin for low-cardinality; per-register classification test
+- Fixed counterpoint: removed "integer tap counts" as a discrete example (it's ordinal/quasi-continuous, not categorical)
+- Reason: human clarified registers are 8/16/24-bit and questioned the monotonicity assumption for thresholds
+
+---
+
+## [2026-05-23] update | CMA-ES vs GA — added property-by-property landscape analysis
+
+- Page: wiki/analyses/cma-es-vs-ga-computational-cost.md
+- Added section "Why CMA-ES matches this landscape — property by property": 6 landscape properties (continuous/correlated/anisotropic/block-structured/smooth/multimodal), mechanistic GA-failure vs CMA-ES-handling per property, the invariance argument (monotonic-f + affine-search-space invariance vs unknown structure), step-size/multimodal, and the discrete-register counterpoint (split by type → mixed-integer CMA-ES)
+- Reason: human requested detailed explanation of why one algorithm beats the other for this specific problem
+
+---
+
+## [2026-05-23] query | CMA-ES vs GA — when to use each, computational cost, ISP application
+
+- Question: compare CMA-ES vs GA (when to use each, compute expense) for tuning ~200 ISP registers via XGBoost surrogate
+- Analysis page: wiki/analyses/cma-es-vs-ga-computational-cost.md
+- New angles vs existing [[isp-register-optimization]]: two-cost-axes framing (internal overhead vs sample efficiency), surrogate-query nuance (CMA-ES buys quality not compute), block-diagonal covariance for ISP block separability
+- Sources drawn: [[whitley-1994-ga-tutorial]], [[beyer-schwefel-2002-evolution-strategies]], [[storn-price-1997-differential-evolution]], [[hrstka-2009-ea-comparison]], [[loshchilov-2017-lm-ma-es]]
+- index.md updated (Analyses)
+
+---
+
+## [2026-05-23] ingest | Batch ingest — 6 classical evolutionary computation papers (GA / ES / DE)
+
+- Source pages created (6):
+  - [[storn-price-1997-differential-evolution]] — DE foundational paper
+  - [[beyer-schwefel-2002-evolution-strategies]] — comprehensive ES survey
+  - [[casas-2015-ga-multimodal-review]] — GA multimodal/niching review
+  - [[hrstka-2009-ea-comparison]] — DE/SADE/RASA/IASA benchmark
+  - [[whitley-1994-ga-tutorial]] — ⚠ raw conversion was mojibake; written from canonical knowledge + flag
+  - [[auger-hansen-2005-ipop-cma-es]] — ⚠ raw conversion was empty (IEEE watermark only); written from canonical knowledge + flag
+- Concepts created (4): [[evolution-strategies]], [[genetic-algorithm]], [[differential-evolution]], [[multimodal-optimization]]
+- Entities created (5): [[hans-paul-schwefel]], [[hans-georg-beyer]], [[rainer-storn]], [[kenneth-price]], [[darrell-whitley]]
+- Existing pages updated: [[cma-es]] (added ES-ancestry note, IPOP-CMA-ES variant, links to evolution-strategies/differential-evolution)
+- Framing decision (human): neutral reference, no ISP tie-in
+- Note: 2 of 6 raw PDFs (Whitley, Auger-Hansen) need re-conversion — bad pymupdf4llm extraction
+- index.md updated: 6 sources, 5 entities, 4 concepts added
+
+---
+
 ## [2026-05-10] ingest | Batch ingestion of 15 new papers (ISP/IQ, surrogate, sensitivity, multi-objective, sampling, LLM)
 
 - Source pages created (wiki/sources/):
